@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" integrity="sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ==" crossorigin="anonymous">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+		<link rel="stylesheet" type="text/css" href="/stylesheets/style.css">
+		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.min.js"></script>
+	</head>
+	<body ng-app="pokemonApp" ng-controller="homeCtrl" data-ng-init="getGit()">
+		<!--NAVBAR-->
+		<div class="navbar navbar-custom navbar-static-top">
+	        <div class="container-fluid">
+	            <div class="navbar-header">
+	                <a class="navbar-brand" href="/home">Pokemon Express</a>
+	            </div>
+	            <div class="collapse navbar-collapse">
+	                <ul class="nav navbar-nav navbar-right">
+	                    <li><a>{{githubUser.user}}<img id="profile-pic" src="{{githubUser.picture}}"></a></li>
+	                </ul>
+	            </div>
+	        </div>
+	    </div>
+
+	    <!--BODY-->
+	    <div class="container" ng-if="githubUser.activePokemon.length > 0">
+	    	<a class="app-dir col-md-3" ng-repeat='m in appMenu' id="{{m.htmlId}}" href="{{m.route}}"> 
+	    		<h3>{{m.title}}</h3>
+	    		<img src="{{m.source}}">
+	    	</a>
+	    </div>
+	    <div class="container" ng-if="githubUser.activePokemon.length === 0">
+	    	<h1>Welcome to Pokemon Express</h1>
+	    	<h4>Pick your starter</h4>
+	    	<div ng-repeat="p in pokemon" class="pokemon-container col-md-2" ng-mouseenter="showStats = !showStats" ng-mouseleave="showStats = !showStats">
+					<div ng-hide="showStats">
+						<img ng-src="{{p.avatarUrl}}" class="sprite">
+						<h6>{{p.name}}</h6>
+						<button class="btn btn-primary btn-xs" ng-click="addToRoster(p)">I Choose {{p.name}}</button>
+					</div>
+					<div class="pokemon-info" ng-show="showStats">
+						<h4>{{p.name}}</h4>
+						<ul>
+							<li>Type: {{p.type}}</li>
+							<li>HP: {{p.hp}}</li>
+							<li>Attack: {{p.minAttack}} - {{p.maxAttack}}</li>
+							<li>Defense: {{p.defense}}</li>
+						</ul>
+						<button class="btn btn-primary btn-xs" ng-click="addToRoster(p)">I Choose {{p.name}}</button>
+					</div>
+	    </div>
+
+	    <!--FOOTER-->
+		<script src="javascripts/pokemonApp.js"></script>
+		<script src="javascripts/factories/UsersAPI.js"></script>
+		<script src="javascripts/factories/PokemonAPI.js"></script>
+		<script src="javascripts/controllers/homeCtrl.js"></script>
+  	</body>
+</html>

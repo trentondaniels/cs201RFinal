@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<link rel="stylesheet" type="text/css" href="/stylesheets/style.css">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" integrity="sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ==" crossorigin="anonymous">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.0/angular.min.js"></script>
+	</head>
+	<body ng-app="pokemonApp" ng-controller="multiCtrl" data-ng-init="initializeMatch()">
+		<!--NAVBAR-->
+		<div class="navbar navbar-custom navbar-static-top">
+	        <div class="container-fluid">
+	            <div class="navbar-header">
+	                <a class="navbar-brand" href="/home">Pokemon Express</a>
+	            </div>
+	            <div class="collapse navbar-collapse">
+	                <ul class="nav navbar-nav navbar-right">
+	                    <li>{{githubUser.user}}</li>
+	                </ul>
+	            </div>
+	        </div>
+	    </div>
+	    <div id="fight-screen" class="container">
+	    	<div id="main-interface" class="row">
+		    	<div class="col-md-12 battle-mode" ng-hide="switchMode || healMode || battleOver">
+		    		<div class="row">
+		    			<div id="player-name" class="col-md-6 text-center">
+		    				<h3>{{githubUser.user}}: <img ng-repeat="p in githubUser.activePokemon" class="pokeballs" ng-src="{{p.hp > 0 && 'https://upload.wikimedia.org/wikipedia/en/3/39/Pokeball.PNG' || 'http://uxrepo.com/static/icon-sets/windows/png32/256/000000/pokeball-256-000000.png'}}"</img></h3>
+		    			</div>
+		    			<div id="rival-name" class="col-md-6 text-right">
+		    				<h3>{{rival.user}}: <img ng-repeat="p in rival.activePokemon" class="pokeballs" ng-src="{{p.hp > 0 && 'https://upload.wikimedia.org/wikipedia/en/3/39/Pokeball.PNG' || 'http://uxrepo.com/static/icon-sets/windows/png32/256/000000/pokeball-256-000000.png'}}"</img></h3>
+		    			</div>
+		    		</div>
+		    		<div class="row">
+		    			<div id="player-sprite" class="col-md-6 text-center">
+		    				<div class="activeBattle">
+		    					<img ng-src="{{playerActive.avatarUrl}}" class="activeSprite"><br>
+								<span>HP: <progress id="playerHealth" class="health" value="{{playerActive.hp}}" max="{{playerActive.maxHp}}"></progress></span>
+							</div>
+						</div>
+						<div id="rival-sprite" class="col-md-6 text-center">
+							<div class="activeBattle">
+		    					<img ng-src="{{rivalActive.avatarUrl}}" class="activeSprite"><br>
+								<span>HP: <progress id="rivalHealth" class="health" value="{{rivalActive.hp}}" max="{{rivalActive.maxHp}}"></progress></span>
+							</div>
+						</div>
+		    		</div>
+		    	</div>
+
+		    	<div class="col-md-12 switch-mode text-center" ng-show="switchMode">
+		    		<span ng-repeat="p in githubUser.activePokemon">
+		    			<img ng-src="{{p.avatarUrl}}" style="width: 50px; height: 50px">
+		    			HP: <progress class="health" value="{{p.hp}}" max="{{p.maxHp}}"></progress>
+		    			<button class="btn btn-success" ng-if="(p.hp > 0)" ng-click="iChooseYou(p.name)">I Choose you {{p.name}}!</button>
+		    			<br>
+		    		</span>
+		    		<button class="btn btn-danger" ng-click="cancel()">Cancel</button>
+		    	</div>
+		    	<div class="col-md-12 heal-mode text-center" ng-show="healMode">
+		    		<span ng-repeat="p in githubUser.activePokemon">
+		    			<img ng-src="{{p.avatarUrl}}" style="width: 50px; height: 50px">
+		    			HP: <progress class="health" value="{{p.hp}}" max="{{p.maxHp}}"></progress>
+		    			<button class="btn btn-success" ng-if="(p.hp != p.maxHp)" ng-click="applyPotion(p.name)">Heal {{p.name}}</button>
+		    			<br>
+		    		</span>
+		    		<button class="btn btn-danger" ng-click="cancel()">Cancel</button>
+		    	</div>
+		    	<div class="col-md-12 over text-center" ng-show="battleOver">
+		    		<h1>{{winner}} is victorious!!!</h1>
+		    		<button ng-if="(winner !== githubUser.user)" class="btn btn-success" ng-click="initializeMatch()">Try Again</button>
+		    		<button ng-if="(winner === githubUser.user)" class="btn btn-success" ng-click="initializeMatch()">Face The Next Challenger</button>
+		    	</div>
+		    </div>
+		    <div class="row" id="buttons">
+		    	<div class="col-md-12 text-center" ng-hide="battleOver || switchMode  || potionOptions">
+	    			<button class="btn btn-success" ng-disabled="!playerTurn" ng-click="attack()">Attack</button>
+					<button class="btn btn-success" ng-disabled="!playerTurn" ng-click="changePokemon()">Switch Pokemon</button>
+					<button class="btn btn-success" ng-disabled="!playerTurn" ng-click="useItem()">Use an Item</button>
+				</div>
+				<div class="col-md-12 text-center" ng-show="potionOptions">
+					<button class="btn btn-success" ng-repeat="potion in githubUser.backpack | filter:{'type': 'potion'}" ng-click="choosePotion(potion)">Use {{potion.name}}</button>
+					<button class="btn btn-danger" ng-click="cancel()">Cancel</button>
+				</div>
+		    </div>
+	    </div>
+		<script src="javascripts/pokemonApp.js"></script>
+		<script src="javascripts/factories/UsersAPI.js"></script>
+		<script src="javascripts/factories/BattleFactory.js"></script>
+		<script src="javascripts/factories/PokemonAPI.js"></script>
+		<script src="javascripts/controllers/multiCtrl.js"></script>
+  	</body>
+</html>

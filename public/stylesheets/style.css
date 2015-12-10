@@ -1,0 +1,189 @@
+.sprite {
+  width: 80px;
+  height: 80px;
+}
+table, th, td {
+	border: 1px solid black;
+}
+th, td {
+	padding: 3px;
+}
+
+#fight-screen {
+	border-radius: 15px;
+	border: solid;
+	margin-top: 50px;
+	background-color: #D4DBE0;
+}
+
+#buttons {
+	margin: 25px;
+	padding-right: 50px;
+	padding-top: 15px;
+}
+#player-sprite {
+	padding-right: 100px;
+}
+#player-name {
+	padding-right: 75px;
+}
+#rival-sprite {
+	padding-right: 175px;
+}
+#rival-name {
+	padding-right: 250px;
+}
+
+.activeSprite{
+	width: 150px;
+	height: 150px;
+	margin-bottom: 8px;
+}
+
+.activeBattle {
+	padding-left: 80px;
+	padding-top: 25px;
+}
+
+#profile-pic {
+	width: 30px;
+	height: 30px;
+	margin-left: 5px;
+}
+
+.fight-arena {
+	border: solid;
+	background-color: green;
+	border-radius: 15px;
+	padding: 15px;
+	margin-top: 75px;
+}
+
+.pokeballs {
+	height: 15px;
+	width: 15px;
+	margin-right: 2px;
+}
+
+#fightContainer {
+	margin-top: 25px;
+}
+
+.navbar {
+	background-color: rgb(25, 47, 83);
+}
+
+.app-dir img {
+	height: 150px;
+}
+
+.app-dir {
+	align: center;
+	border-radius: 10px;
+	background-color: grey;
+	width: 250px;
+	height: 250px;
+	margin: 30px; 
+	padding: 15px;
+	text-align: center;
+	color: black;
+	box-shadow: -1px 1px 2px #000000;
+}
+ 
+.app-dir:link {
+	text-decoration: none;
+}
+
+.app-dir:active {
+	text-decoration: none;
+}
+
+.app-dir:visited {
+	text-decoration: none;
+}
+
+.app-dir:hover {
+	text-decoration: none;
+	background-color: green;
+	color:white;
+	box-shadow: -3px 3px 5px #000000;
+}
+#my-pokemon:hover {
+	background-color: #E10000;
+}
+#my-backpack:hover {
+	background-color: #FF7F50;
+}
+#store:hover {
+	background-color: #FFA500;
+}
+#gym-leaders:hover {
+	background-color: #3CB371;
+}
+#other-users:hover {
+	background-color: #4682B4;
+}
+#new-pokemon:hover {
+	background-color: #BA55D3;
+}
+#pokedex:hover {
+	background-color: #EE82EE;
+}
+#settings:hover {
+	background-color: #FF6347;
+}
+#information:hover {
+	background-color: #4169E1;
+}
+
+.container {
+	padding-left:125px;
+	padding-top: 25px;
+	padding-bottom: 25px;
+	margin: auto;
+}
+
+.pokemon-container {
+	align: center;
+	border-radius: 10px;
+	width: 210px;
+	height: 175px;
+	margin: 10px; 
+	padding: 15px;
+	background-color: grey;
+	text-align: center;
+	color: black;
+	box-shadow: -1px 1px 2px #000000;
+}
+
+.roster-active {
+	background-color: #b3ffb3;
+}
+.btn-xs {
+	float: left;
+	text-align: left;
+}
+
+.pokemon-info {
+	text-align: left;
+}
+
+.playable {
+	background-color: blue;
+}
+
+.KO {
+	background-color: red;
+}
+
+.pokedexEntry {
+	height: 15px;
+	width: 15px;
+}
+
+progress[value] {
+	-webkit-appearance: none;
+	appearance: none;
+}
+progress[value]::-webkit-progress-value {background-color: red;}
+progress[value]::-moz-progress-bar { background-color: red; }

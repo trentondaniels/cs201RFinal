@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<link rel="stylesheet" type="text/css" href="/stylesheets/style.css">
+		 <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+  		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+  		<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.0/angular.min.js"></script>
+	</head>
+		<body ng-app="pokemonApp" ng-controller="rosterCtrl">
+		<div class="navbar navbar-custom navbar-static-top">
+	        <div class="container-fluid">
+	            <div class="navbar-header">
+	                <a class="navbar-brand" href="/home">Pokemon Express</a>
+	            </div>
+	            <div class="collapse navbar-collapse">
+	                <ul class="nav navbar-nav navbar-right">
+	                    <li><a>{{githubUser.user}}</a></li>
+	                </ul>
+	            </div>
+	        </div>
+	    </div>
+	    <div class="container">
+			<h2>Active Roster</h2>
+			<div class="row col-md-12">
+				<div ng-repeat="p in githubUser.activePokemon" class="pokemon-container roster-active col-md-2" ng-mouseenter="showStats = !showStats" ng-mouseleave="showStats = !showStats">
+					<div ng-hide="showStats">
+						<img ng-src="{{p.avatarUrl}}" class="sprite">
+						<h6>{{p.name}}</h6>
+						<button class="btn btn-danger btn-xs" ng-click="removeFromRoster(p.name)" class="remove-roster">Move to Inactive</button>
+					</div>
+					<div class="pokemon-info" ng-show="showStats">
+						<h4>{{p.name}}</h4>
+						<ul>
+							<li>Type: {{p.type}}</li>
+							<li>HP: {{p.hp}}</li>
+							<li>Attack: {{p.minAttack}} - {{p.maxAttack}}</li>
+							<li>Defense: {{p.defense}}</li>
+						</ul>
+						<button class="btn btn-danger btn-xs" ng-click="removeFromRoster(p.name)" class="remove-roster">Move to Inactive</button>
+					</div>
+				</div>
+			</div>
+			<button class="btn btn-success" ng-click="saveRoster()" value="Save">Save</button>
+		</div>
+
+
+		<div class="container">
+			<h2>Pokemon in Storage</h2>
+			<div class="row col-md-12">
+				Filter: <select ng-model="showType">
+					<option value="" selected>All</option>
+					<option ng-repeat="type in types" value="{{type}}">{{type}}</option>
+				</select>
+			</div>
+			<div id="allPokemon" ng-if="githubUser.inactivePokemon.length" class="col-md-12">
+				<div ng-repeat="p in githubUser.inactivePokemon | orderBy: 'pokedexNumber' | filter:showType" class="pokemon-container col-md-2" ng-mouseenter="showStats = !showStats" ng-mouseleave="showStats = !showStats">
+					<div ng-hide="showStats">
+						<img ng-src="{{p.avatarUrl}}" class="sprite">
+						<h6>{{p.name}}</h6>
+						<button class="btn btn-primary btn-xs" ng-click="addToRoster(p.name)">Move to Active</button>
+					</div>
+					<div class="pokemon-info" ng-show="showStats">
+						<h4>{{p.name}}</h4>
+						<ul>
+							<li>Type: {{p.type}}</li>
+							<li>HP: {{p.hp}}</li>
+							<li>Attack: {{p.minAttack}} - {{p.maxAttack}}</li>
+							<li>Defense: {{p.defense}}</li>
+						</ul>
+						<button class="btn btn-primary btn-xs" ng-click="addToRoster(p.name)">Move to Active</button>
+					</div>
+				</div>	
+			</div>
+			<button class="btn btn-success" ng-click="saveRoster()" value="Save">Save</button>
+		</div>
+		<script src="javascripts/pokemonApp.js"></script>
+		<script src="javascripts/factories/PokemonAPI.js"></script>
+		<script src="javascripts/factories/UsersAPI.js"></script>
+		<script src="javascripts/controllers/rosterCtrl.js"></script>
+	</body>
+</html>

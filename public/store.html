@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" integrity="sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ==" crossorigin="anonymous">
+		<link rel="stylesheet" type="text/css" href="/stylesheets/style.css">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.0/angular.min.js"></script>
+	</head>
+	<body ng-app="pokemonApp" ng-controller="storeCtrl" data-ng-init="getUser()">
+		<!--NAVBAR-->
+		<div class="navbar navbar-custom navbar-static-top">
+	        <div class="container-fluid">
+	            <div class="navbar-header">
+	                <a class="navbar-brand" href="/home">Pokemon Express</a>
+	            </div>
+	            <div class="collapse navbar-collapse">
+	                <ul class="nav navbar-nav navbar-right">
+	                    <li><a>{{githubUser.user}}</a></li>
+	                </ul>
+	            </div>
+	        </div>
+	    </div>
+
+	    <div class= "container" ng-hide="stone">
+	    	<div class="row">
+	    		<div class="col-md-12">
+	    			<h1>You have: {{githubUser.cash | currency}}</h1>
+	    		</div>
+	    	</div>
+	    	<div class="row">
+	    		<div class="col-md-8">
+	    			<h2>Store</h2>
+	    			<table>
+	    				<tbody>
+	    					<tr>
+	    						<th><strong>Item</strong></th>
+	    						<th><strong>Description</strong></th>
+	    						<th><strong>Price</strong></th>
+	    						<th></th>
+	    					</tr>
+	    					<tr ng-repeat="item in items" ng-if="item.price">
+	    						<th>{{item.name}}</th>
+	    						<th>{{item.description}}</th>
+	    						<th>{{item.price | currency}}</th>
+	    						<th><button class="btn btn-success" ng-click="purchase(item)">Buy {{item.name}}</button></th>
+	    					</tr>
+	    				</tbody>
+	    			</table>
+	    		</div>
+	    		<div class="col-md-4">
+	    			<h2>My Items</h2>
+	    			<table ng-if="githubUser.backpack.length">
+	    				<tbody>
+	    					<tr>
+	    						<th><strong>Item</strong></th>
+	    						<th><strong>Quantity</strong></th>
+	    						<th></th>
+	    					</tr>
+	    					<tr ng-repeat="item in githubUser.backpack" ng-if="item.price">
+	    						<th>{{item.name}}</th>
+	    						<th class="text-right">{{item.quantity}}</th>
+	    						<th><button ng-if="(item.type === 'stone')" button class="btn btn-success" ng-click="use(item.name)">Use {{item.name}}</button></th>
+	    					</tr>
+	    				</tbody>
+	    			</table>
+	    			<h4 ng-if="!githubUser.backpack.length">You have no items</h4>
+	    		</div>
+	    	</div>
+	    </div>
+	    <div class= "container" ng-show="stone">
+	    	<span ng-repeat="p in githubUser.activePokemon" ng-if="p.stone === selectedStone">
+    			<img ng-src="{{p.avatarUrl}}" style="width: 50px; height: 50px">
+    			<button class="btn btn-success" ng-click="evolve($index)">Evolve {{p.name}}!</button>
+    			<br>
+    		</span>
+    		<button class="btn btn-danger" ng-click="cancel()">Cancel</button>
+	    </div>
+		<script src="javascripts/pokemonApp.js"></script>
+		<script src="javascripts/factories/UsersAPI.js"></script>
+		<script src="javascripts/factories/PokemonAPI.js"></script>
+		<script src="javascripts/factories/ItemsAPI.js"></script>
+		<script src="javascripts/controllers/storeCtrl.js"></script>
+  	</body>
+</html>
